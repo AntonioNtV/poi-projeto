@@ -24,8 +24,8 @@ resource "openstack_networking_secgroup_rule_v2" "control_node_ports" {
   direction        = "ingress"
   ethertype        = "IPv4"
   protocol         = "tcp"
-  port_range_min   = element([10259, 8080, 10248, 10257, 2379, 6443], count.index)
-  port_range_max   = element([10259, 8080, 10248, 10257, 2380, 6443], count.index)
+  port_range_min   = element([10259, 8080, 10248, 10257, 10250, 2379, 6443], count.index)
+  port_range_max   = element([10259, 8080, 10248, 10257, 10250, 2380, 6443], count.index)
   remote_ip_prefix = "0.0.0.0/0"
   security_group_id = openstack_networking_secgroup_v2.control_node_security_group.id
 }
@@ -41,8 +41,8 @@ resource "openstack_networking_secgroup_rule_v2" "work_node_ports" {
   direction        = "ingress"
   ethertype        = "IPv4"
   protocol         = "tcp"
-  port_range_min   = element([10256, 30000, 32500, 10250, 8080], count.index)
-  port_range_max   = element([10256, 32767, 32500, 10250, 8080], count.index)
+  port_range_min   = element([10256, 30000, 32500, 10250, 8080, 10248], count.index)
+  port_range_max   = element([10256, 32767, 32500, 10250, 8080, 10248], count.index)
   remote_ip_prefix = "0.0.0.0/0"
   security_group_id = openstack_networking_secgroup_v2.work_node_security_group.id
 }
