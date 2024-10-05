@@ -19,16 +19,19 @@ resource "openstack_networking_secgroup_v2" "control_node_security_group" {
   description = "Security group for control node"
 }
 
+# control node ports
 resource "openstack_networking_secgroup_rule_v2" "control_node_ports" {
-  count            = 6
-  direction        = "ingress"
-  ethertype        = "IPv4"
-  protocol         = "tcp"
-  port_range_min   = element([10259, 8080, 10248, 10257, 10250, 2379, 6443], count.index)
-  port_range_max   = element([10259, 8080, 10248, 10257, 10250, 2380, 6443], count.index)
-  remote_ip_prefix = "0.0.0.0/0"
-  security_group_id = openstack_networking_secgroup_v2.control_node_security_group.id
+  count              = 8
+  direction          = "ingress"
+  ethertype          = "IPv4"
+  protocol           = "tcp"
+  remote_ip_prefix   = "0.0.0.0/0"
+  security_group_id  = openstack_networking_secgroup_v2.control_node_security_group.id
+
+  port_range_min     = [6443, 2379, 2380, 10250, 10259, 10257, 8080, 10248][count.index]
+  port_range_max     = [6443, 2379, 2380, 10250, 10259, 10257, 8080, 10248][count.index]
 }
+
 
 # Grupo de segurança para work nodes
 resource "openstack_networking_secgroup_v2" "work_node_security_group" {
@@ -41,8 +44,8 @@ resource "openstack_networking_secgroup_rule_v2" "work_node_ports" {
   direction        = "ingress"
   ethertype        = "IPv4"
   protocol         = "tcp"
-  port_range_min   = element([10256, 30000, 32500, 10250, 8080, 10248], count.index)
-  port_range_max   = element([10256, 32767, 32500, 10250, 8080, 10248], count.index)
+  port_range_min   = element([10250, 10256, 8080, 10246, 30000], count.index)
+  port_range_max   = element([10250, 10256, 8080, 10246, 32767], count.index)
   remote_ip_prefix = "0.0.0.0/0"
   security_group_id = openstack_networking_secgroup_v2.work_node_security_group.id
 }
