@@ -18,3 +18,10 @@ resource "openstack_lb_pool_v2" "work_node_2_pool" {
   lb_method       = "ROUND_ROBIN"
   listener_id     = openstack_lb_listener_v2.listener_work_node_2.id
 }
+
+resource "openstack_lb_pool_v2" "work_node_1_application_pool" {
+  name            = "grupo-7-projeto-work-node-1-application-pool"
+  protocol        = "HTTP"
+  lb_method       = "ROUND_ROBIN"
+  listener_id     = openstack_lb_listener_v2.listener_work_node_1_http.id
+}

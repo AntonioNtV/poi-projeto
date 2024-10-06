@@ -27,7 +27,6 @@ resource "openstack_networking_secgroup_rule_v2" "control_node_ports" {
   protocol           = "tcp"
   remote_ip_prefix   = "0.0.0.0/0"
   security_group_id  = openstack_networking_secgroup_v2.control_node_security_group.id
-
   port_range_min     = [6443, 2379, 2380, 10250, 10259, 10257, 8080, 10248][count.index]
   port_range_max     = [6443, 2379, 2380, 10250, 10259, 10257, 8080, 10248][count.index]
 }
